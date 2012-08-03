@@ -19,7 +19,7 @@ try
 		//Assigning friendly var names
 		$term = $_GET['term'];
 		$column = $_GET['col'];
-		$table = 'obiettivi';
+		$table = 'cities';
 		
 		if( !empty($column) )
 		{

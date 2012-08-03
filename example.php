@@ -1,23 +1,36 @@
 <?php
+include('autocomplete.class.php');
 
 
-include('lib/autocomplete.class.php');
-$myAutoCompleteHelper = new AutoCompleteHelper($myDB);
+//.Database connection info:
+$Hostname = 'localhost:3307';
+$Database = 'test';
+$Username = 'root';
+$Password = '';
 
-
-if(isset($_GET['term']) && isset($_GET['col']) )
+try
 {
-	
-	//Assigning friendly var names
-	$term = $_GET['term'];
-	$column = $_GET['col'];
-	$table = 'obiettivi';
-	
-	if( !empty($column) )
+	$myAutoCompleteHelper = new AutoCompleteHelper($Hostname, $Username, $Password, $Database);
+
+
+	if(isset($_GET['term']) && isset($_GET['col']) )
 	{
-		echo $myAutoCompleteHelper->AutoComplete($table, $column, $term);
+		
+		//Assigning friendly var names
+		$term = $_GET['term'];
+		$column = $_GET['col'];
+		$table = 'obiettivi';
+		
+		if( !empty($column) )
+		{
+			echo $myAutoCompleteHelper->AutoComplete($table, $column, $term);
+		}
+		
 	}
-	
+}
+catch (Exception $e) 
+{
+    echo '<br>Caught exception: ',  $e->getMessage(), "<br>";
 }
 
 

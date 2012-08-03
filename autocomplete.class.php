@@ -1,7 +1,7 @@
 <?php
 //--------------------------------------------------------------------------
 // AutoComplete Class
-//	@author: Filippo Mascoli - eldblz@nxo.it
+//	@author: Filippo Mascoli - eldiabloz@gmail.com
 //  @version: 1.0 BETA
 //--------------------------------------------------------------------------
 
@@ -11,9 +11,17 @@ class AutoCompleteHelper
 	
 	//--------------------------------------------------------------------------
 	
-	function __construct($DBobj)
+	function __construct($Hostname, $Username, $Password, $Database)
 	{
-		$this->DB = & $DBobj;
+		$this->DB = new mysqli($Hostname, $Username, $Password, $Database);
+
+		/*
+		 * This is the "official" OO way to do it,
+		 * BUT $connect_error was broken until PHP 5.2.9 and 5.3.0.
+		 */
+		if ($this->DB->connect_error) {
+			throw new Exception('Connect Error (' . $this->DB->connect_errno . ') ' . $this->DB->connect_error);
+		}
 	}	
 	
 	//--------------------------------------------------------------------------
@@ -56,13 +64,13 @@ class AutoCompleteHelper
 		if(!empty($query) && !empty($column))
 		{
 			//.Query
-			$res = $this->DB->Query($query, 0);
+			$res = $this->DB->query($query);
 			
 			//query execution ok?
-			if($res)
+			if( $this->DB->affected_rows > 0 )
 			{
 				
-				while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) 
+				while ($row = $res->fetch_assoc() ) 
 				{
 					//Create a new array to return values to be json encoded as requested by Jquery
 					//Creo una nuova array per restituire i valori come richiesti da JQuery
@@ -75,7 +83,7 @@ class AutoCompleteHelper
 			}
 			else
 			{
-				throw new Exception('Query: [' . $query . '] execution failed.');
+				throw new Exception('Query: [' . $query . '] execution failed. Error: ' . $this->DB->error);
 				return FALSE;
 			}
 		}

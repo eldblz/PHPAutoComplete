@@ -1,7 +1,7 @@
 <?php
 include("init.inc.php");
 
-include('lib/autocomplete.class.php');
+include('autocomplete.class.php');
 
 $myAC = new AutoCompleteHelper($myDB);
 

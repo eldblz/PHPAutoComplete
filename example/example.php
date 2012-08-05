@@ -1,5 +1,5 @@
 <?php
-include('autocomplete.class.php');
+include('../autocomplete.class.php');
 
 
 //.Database connection info:
@@ -19,7 +19,7 @@ try
 		//Assigning friendly var names
 		$term = $_GET['term'];
 		$column = $_GET['col'];
-		$table = 'cities';
+		$table = $_GET['tbl'];
 		
 		if( !empty($column) )
 		{
@@ -32,7 +32,6 @@ catch (Exception $e)
 {
     echo '<br>Caught exception: ',  $e->getMessage(), "<br>";
 }
-
 
 
 

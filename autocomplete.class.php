@@ -39,6 +39,12 @@ class AutoCompleteHelper
 	{
 		if( !empty($column) && !empty($table) && !empty($term) )
 		{
+			//.Clear input to avoid SQL Injection			
+			$table = $this->DB->real_escape_string($table);
+			$column = $this->DB->real_escape_string($column);			
+			$term = $this->DB->real_escape_string($term);
+			$limit = $this->DB->real_escape_string($limit);
+			
 			//.Build the query 
 			$query = "SELECT " . $column . " FROM " . $table . " WHERE " . $column . " LIKE '".$term."%' GROUP BY " . $column . " LIMIT " .$limit . ";";
 			return $this->AutoCompleteQuery($query, $column);

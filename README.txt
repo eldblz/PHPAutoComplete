@@ -1,0 +1,1 @@
+PHPAutocomplete is a PHP Class designed to be the datasource of jquery autocomplete fields
